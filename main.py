@@ -2,7 +2,7 @@
 import requests
 from pprint import pprint
 
-TOKEN = '....' # Ваш токен не работаел. сгенерил свой
+TOKEN = '-' # Ваш токен не работаел. сгенерил свой
 
 OAUTH_URL = 'https://api.vk.com/method/'
 
@@ -53,30 +53,30 @@ class User:
     def print(self):
         print('http://vk.com/id'+str(self.id))
 
-def both_friends(u1, u2):
+    def __and__(u1, u2):
 
-    response1 = requests.get('https://api.vk.com/method/friends.get',
-                            params={
-                                'access_token': TOKEN,
-                                'v': 5.122,
-                                'user_id': u2.id
-                            }
-                            )
+        response1 = requests.get('https://api.vk.com/method/friends.get',
+                                params={
+                                    'access_token': TOKEN,
+                                    'v': 5.122,
+                                    'user_id': u2.id
+                                }
+                                )
 
-    response2 = requests.get('https://api.vk.com/method/friends.get',
-                             params={
-                                 'access_token': TOKEN,
-                                 'v': 5.122,
-                                 'user_id': u1.id
-                             }
-                             )
+        response2 = requests.get('https://api.vk.com/method/friends.get',
+                                 params={
+                                     'access_token': TOKEN,
+                                     'v': 5.122,
+                                     'user_id': u1.id
+                                 }
+                                 )
 
-    u1_friends = response2.json()['response']["items"]
-    u2_friends = response1.json()['response']["items"]
+        u1_friends = response2.json()['response']["items"]
+        u2_friends = response1.json()['response']["items"]
 
-    result_list = list (set(u1_friends) & set(u2_friends))
+        result_list = list (set(u1_friends) & set(u2_friends))
 
-    print(result_list)
+        return result_list
 
 def main():
 
@@ -85,18 +85,18 @@ def main():
 
     me = User(7545141, TOKEN)
 
-    me.print()
-    print('-----Друзья между мной и кем то по токену----')
-    me.match_with_me()
-    print('----Не особо понял как работает. ищет общих со списком-----')
-    me.match_list(list)
-    print('----Мои друзья------')
-    me.my_friends()
-    print('----------')
-    print('----между двумя объектами класса------')
-
+    # me.print()
+    # print('-----Друзья между мной и кем то по токену----')
+    # me.match_with_me()
+    # print('----Не особо понял как работает. ищет общих со списком-----')
+    # me.match_list(list)
+    # print('----Мои друзья------')
+    # me.my_friends()
+    # print('----------')
+    # print('----между двумя объектами класса------')
+    #
     vlad = User(182569464)
     misha = User(34362269)
-    both_friends(vlad, misha)
+    print(vlad & misha)
 
 main()
